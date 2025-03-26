@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #f0f2f5;
+        }
+        .neubrutalism {
+            border: 3px solid #000;
+            box-shadow: 5px 5px 0px #000;
+            transition: all 0.2s ease;
+        }
+        .neubrutalism:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px #000;
+        }
+        .input-neubrutalism {
+            border: 2px solid #000;
+            background: white;
+            padding: 8px;
+        }
+        .input-neubrutalism:focus {
+            outline: none;
+            box-shadow: 3px 3px 0px #000;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="neubrutalism bg-white p-6 md:p-8 rounded-lg mb-8">
+            <h1 class="text-3xl font-bold mb-6 flex items-center">
+                <i class="bi bi-calculator me-2"></i>
+                Transaction Calculator
+            </h1>
+
+            <div class="steps-indicator mb-8 flex justify-between relative">
+                <div class="step-1 flex flex-col items-center z-10 bg-white">
+                    <div id="step1Circle" class="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center font-bold mb-2 bg-blue-400">1</div>
+                    <span class="text-sm">Basic Info</span>
+                </div>
+                <div class="step-2 flex flex-col items-center z-10 bg-white">
+                    <div id="step2Circle" class="w-10 h-10 rounded-full border-2 border-black flex items-center justify-center font-bold mb-2">2</div>
+                    <span class="text-sm">Transaction Details</span>
+                </div>
+                <div class="absolute top-5 left-0 w-full h-0.5 bg-black -z-10"></div>
+            </div>
+
+            <form id="transactionForm" class="space-y-6">
+                <div id="step1" class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-2 font-bold">Network</label>
+                            <input type="text" name="network" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-bold">Chain ID</label>
+                            <input type="number" name="chainId" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-bold">Safe Address</label>
+                        <input type="text" name="address" class="w-full input-neubrutalism rounded" required>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-2 font-bold">Nonce</label>
+                            <input type="text" name="nonce" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-bold">Version</label>
+                            <input type="text" name="version" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                    </div>
+                    <button type="button" id="nextBtn" class="neubrutalism bg-blue-400 px-6 py-2 rounded font-bold mt-4">Next Step</button>
+                </div>
+
+                <div id="step2" class="hidden space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-2 font-bold">To Address</label>
+                            <input type="text" name="to" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-bold">Value</label>
+                            <input type="text" name="value" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-bold">Data</label>
+                        <input type="text" name="data" class="w-full input-neubrutalism rounded" required>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block mb-2 font-bold">Operation</label>
+                            <input type="text" name="operation" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-bold">Safe Tx Gas</label>
+                            <input type="text" name="safeTxGas" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-bold">Base Gas</label>
+                            <input type="text" name="baseGas" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-2 font-bold">Gas Price</label>
+                            <input type="text" name="gasPrice" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2 font-bold">Gas Token</label>
+                            <input type="text" name="gasToken" class="w-full input-neubrutalism rounded" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-2 font-bold">Refund Receiver</label>
+                        <input type="text" name="refundReceiver" class="w-full input-neubrutalism rounded" required>
+                    </div>
+                    <div class="flex gap-4">
+                        <button type="button" id="prevBtn" class="neubrutalism bg-gray-200 px-6 py-2 rounded font-bold">Previous</button>
+                        <button type="submit" id="submitBtn" class="neubrutalism bg-blue-400 px-6 py-2 rounded font-bold">Calculate</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="result" class="neubrutalism bg-white p-6 rounded-lg hidden">
+            <h2 class="text-2xl font-bold mb-4">Results</h2>
+            <pre id="resultContent" class="bg-gray-100 p-4 rounded-lg overflow-auto"></pre>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('transactionForm');
+            const step1 = document.getElementById('step1');
+            const step2 = document.getElementById('step2');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const step1Circle = document.getElementById('step1Circle');
+            const step2Circle = document.getElementById('step2Circle');
+            const result = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+
+            nextBtn.addEventListener('click', () => {
+                const step1Inputs = step1.querySelectorAll('input');
+                let valid = true;
+                step1Inputs.forEach(input => {
+                    if (!input.value) valid = false;
+                });
+
+                if (valid) {
+                    step1.classList.add('hidden');
+                    step2.classList.remove('hidden');
+                    step2Circle.classList.add('bg-blue-400');
+                } else {
+                    alert('Please fill in all required fields');
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                step2.classList.add('hidden');
+                step1.classList.remove('hidden');
+                step2Circle.classList.remove('bg-blue-400');
+            });
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                
+                try {
+                    // Simulate API call
+                    const response = {
+                        network: {
+                            name: data.network,
+                            chain_id: data.chainId
+                        },
+                        transaction: {
+                            multisig_address: data.address,
+                            to: data.to,
+                            value: data.value,
+                            // ... other transaction details
+                        },
+                        hashes: {
+                            domain_hash: "0x...",
+                            message_hash: "0x...",
+                            safe_transaction_hash: "0x..."
+                        }
+                    };
+
+                    result.classList.remove('hidden');
+                    resultContent.textContent = JSON.stringify(response, null, 2);
+                } catch (error) {
+                    alert('An error occurred during calculation');
+                }
+            });
+        });
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
